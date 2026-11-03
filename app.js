@@ -624,7 +624,7 @@ function openGuidedNoteDialog() {
   form.reset();
   updateGuidedNotePreview();
   document.querySelector("#guidedNoteDialog").showModal();
-  setTimeout(() => form.elements.remember.focus(), 50);
+  form.elements.remember.focus();
 }
 
 function openNoteDialog(note = null) {
@@ -643,7 +643,7 @@ function openNoteDialog(note = null) {
   form.elements.tags.value = (note?.tags || []).join(", ");
   document.querySelector("#noteDialogTitle").textContent = note ? "Modifier la note" : "Nouvelle note";
   dialog.showModal();
-  setTimeout(() => form.elements.title.focus(), 50);
+  form.elements.title.focus();
 }
 
 function saveGuidedNote(event) {
