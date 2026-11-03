@@ -18,8 +18,8 @@ Ouvrez ensuite `http://localhost:8000`. Le service worker peut alors mettre l'ap
 
 ## Données et sauvegardes
 
-- **My Brain** : création, modification, suppression, recherche plein texte, types, classements et mots-clés.
-- **365 challenges** : cinq catégories de 73 défis, validation, commentaires et progression.
+- **My Brain** : capture guidée par questions, titre automatique, modification, recherche, classements et mots-clés.
+- **365 challenges** : cinq actions par jour, une par catégorie, pendant 365 jours (1 825 actions), avec progression, validation et commentaires. Le jour 1 commence à la première ouverture.
 - **Progression** : calendrier, jours actifs, séries et avancement par catégorie.
 - **Sauvegarder** : télécharge un fichier JSON contenant les notes, commentaires et validations.
 - **Restaurer** : importe ce fichier sur le même appareil ou sur un autre. La restauration remplace les données présentes dans ce navigateur.

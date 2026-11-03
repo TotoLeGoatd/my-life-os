@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#f5f5f3" />
-    <meta name="description" content="My Life OS — votre espace personnel pour apprendre, avancer et garder le cap." />
+    <meta name="description" content="My Life OS — ton espace pour apprendre, créer et avancer." />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="My Life OS" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
-    <title>My Life OS — votre espace personnel</title>
+    <title>My Life OS — ton espace personnel</title>
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar" aria-label="Navigation principale">
         <a class="brand" href="#dashboard" aria-label="My Life OS, accueil">
-          <span class="brand-mark">M<span>.</span></span>
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 180 180" focusable="false"><rect width="180" height="180" rx="42" fill="#171717"/><circle cx="90" cy="90" r="59" fill="none" stroke="#555551" stroke-width="2"/><path d="M53 119V62l37 44 37-44v57" fill="none" stroke="#f5f5f3" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="132" cy="48" r="5" fill="#aaa9a3"/></svg></span>
           <span class="brand-copy"><strong>my life os</strong></span>
         </a>
 
@@ -47,7 +47,7 @@
             <button class="icon-button" id="installButton" aria-label="Installer l’application" title="Installer l’application" hidden><span data-icon="download"></span></button>
             <button class="icon-button mobile-only-action" id="exportButtonMobile" aria-label="Sauvegarder les données" title="Sauvegarder"><span data-icon="download"></span></button>
             <button class="icon-button mobile-only-action" id="importButtonMobile" aria-label="Restaurer les données" title="Restaurer"><span data-icon="upload"></span></button>
-            <button class="button button-dark button-small" id="quickAddButton"><span data-icon="plus"></span><span>Nouvelle note</span></button>
+            <button class="button button-dark button-small" id="quickAddButton"><span data-icon="plus"></span><span>Capture guidée</span></button>
           </div>
         </header>
         <main id="mainView" class="main-content" tabindex="-1"></main>
@@ -69,15 +69,31 @@
           <label class="field-label">Type<select name="type"><option value="Note">Note</option><option value="Idée">Idée</option><option value="Découverte">Découverte</option><option value="Citation">Citation</option><option value="Apprentissage">Apprentissage</option></select></label>
           <label class="field-label">Classement<input name="category" maxlength="35" list="categorySuggestions" placeholder="Personnel, lecture…" /><datalist id="categorySuggestions"><option>Personnel</option><option>Apprentissage</option><option>Idées</option><option>Maison</option><option>Maisongaudino</option><option>Lectures</option></datalist></label>
         </div>
-        <label class="field-label">Contenu<textarea name="content" rows="6" maxlength="12000" placeholder="Notez ce que vous souhaitez retenir…" required></textarea></label>
+        <label class="field-label">Contenu<textarea name="content" rows="6" maxlength="12000" placeholder="Note ce que tu veux retenir…" required></textarea></label>
         <label class="field-label">Mots-clés <span class="field-hint">séparés par des virgules</span><input name="tags" maxlength="180" placeholder="créativité, à relire…" /></label>
         <div class="modal-actions"><button class="button button-quiet close-dialog" type="button">Annuler</button><button class="button button-dark" type="submit"><span data-icon="check"></span> Enregistrer</button></div>
       </form>
     </dialog>
 
+    <dialog id="guidedNoteDialog" class="modal">
+      <form id="guidedNoteForm" class="modal-form">
+        <div class="modal-heading"><div><div class="eyebrow">MY BRAIN</div><h2>Capture guidée</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fermer"><span data-icon="close"></span></button></div>
+        <label class="field-label">Qu’est-ce que tu veux retenir ?<textarea name="remember" rows="3" maxlength="5000" placeholder="Une idée, une découverte, une citation…" required></textarea></label>
+        <p class="guided-note-preview" id="guidedNotePreview" aria-live="polite">Le titre sera créé à partir de ta réponse.</p>
+        <label class="field-label">Pourquoi c’est important pour toi ?<textarea name="reason" rows="2" maxlength="3000" placeholder="Ce que ça t’apporte ou te fait comprendre…"></textarea></label>
+        <label class="field-label">Quelle idée ou action en découle ?<textarea name="nextStep" rows="2" maxlength="3000" placeholder="Une question à creuser, une prochaine étape…"></textarea></label>
+        <div class="field-row">
+          <label class="field-label">Type<select name="type"><option value="Apprentissage">Apprentissage</option><option value="Idée">Idée</option><option value="Découverte">Découverte</option><option value="Citation">Citation</option><option value="Note">Note</option></select></label>
+          <label class="field-label">Classement<input name="category" maxlength="35" placeholder="Personnel, lecture…" list="guidedCategorySuggestions" /><datalist id="guidedCategorySuggestions"><option>Personnel</option><option>Apprentissage</option><option>Idées</option><option>Maisongaudino</option><option>Lectures</option><option>Sport</option><option>Discipline</option><option>Vie sociale</option></datalist></label>
+        </div>
+        <label class="field-label">Mots-clés <span class="field-hint">facultatif · séparés par des virgules</span><input name="tags" maxlength="180" placeholder="créativité, à relire…" /></label>
+        <div class="modal-actions"><button class="button button-quiet close-dialog" type="button">Annuler</button><button class="button button-dark" type="submit"><span data-icon="check"></span> Créer ma note</button></div>
+      </form>
+    </dialog>
+
     <dialog id="challengeDialog" class="modal modal-narrow">
       <form id="challengeForm" class="modal-form">
-        <div class="modal-heading"><div><div class="eyebrow">365 CHALLENGES</div><h2>Votre retour</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fermer"><span data-icon="close"></span></button></div>
+        <div class="modal-heading"><div><div class="eyebrow">365 CHALLENGES</div><h2>Ton retour</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fermer"><span data-icon="close"></span></button></div>
         <input type="hidden" name="id" />
         <p id="challengeDialogPrompt" class="dialog-prompt"></p>
         <label class="field-label">Commentaire<textarea name="comment" rows="5" maxlength="2000" placeholder="Une pensée, une difficulté, une petite victoire…"></textarea></label>

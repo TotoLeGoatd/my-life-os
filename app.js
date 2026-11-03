@@ -35,69 +35,236 @@ const ICONS = {
 
 const CHALLENGE_PLANS = [
   {
-    category: "Intelligence",
-    tasks: [
-      "Lis quelques pages et note une idée retenue", "Écoute un contenu éducatif et résume-le", "Apprends quelques mots dans une nouvelle langue", "Explore un sujet que tu connais peu", "Écris une question que tu aimerais résoudre", "Fais un exercice de mémoire sans tes notes", "Explique un concept simplement à voix haute", "Prends des notes d'un article de fond", "Découvre le contexte d'une citation", "Avance dans un cours ou un tutoriel", "Observe une œuvre et décris ce que tu vois", "Compare deux points de vue sur un sujet", "Rédige un mini-résumé de ta lecture", "Essaie une session de concentration sans écran", "Relis une ancienne note et ajoute une idée"
-    ],
-    stages: ["Découverte", "Régularité", "Concentration", "Approfondissement", "Transmission"],
-    levels: ["Découverte — consacre 10 minutes à cette action, puis note une chose retenue.", "Régularité — prends 15 minutes et formule l'idée avec tes propres mots.", "Concentration — va jusqu'à 20 minutes sans distraction.", "Approfondissement — garde 25 minutes et ajoute une question à explorer.", "Transmission — consacre 30 minutes, puis explique ce que tu as appris simplement."]
+    category: "Intelligence", code: "intel", tasks: [
+      (n) => ({ title: `Lis ${[20, 22, 25, 27, 30][n]} pages`, description: "Note une idée importante." }),
+      (n) => ({ title: `Apprends ${[5, 6, 8, 10, 12][n]} mots dans une langue`, description: "Écris une phrase avec deux mots." }),
+      (n) => ({ title: `Résume un article en ${3 + n} phrases`, description: "Garde les idées principales." }),
+      (n) => ({ title: `Écoute un podcast pendant ${10 + n * 5} min`, description: "Note un fait nouveau." }),
+      (n) => ({ title: `Mémorise ${5 + n * 2} notions`, description: "Rappelle-les sans regarder." }),
+      (n) => ({ title: `Fais ${5 + n * 2} exercices d’un cours`, description: "Corrige tes réponses." }),
+      (n) => ({ title: `Concentre-toi ${10 + n * 5} min sur un sujet`, description: "Éloigne les distractions." }),
+      (n) => ({ title: `Écris ${100 + n * 50} mots sur ce que tu apprends`, description: "Explique-le avec tes mots." }),
+      () => ({ title: "Lis un chapitre d’un livre", description: "Relève une phrase à retenir." }),
+      () => ({ title: "Résous une énigme ou un sudoku", description: "Va jusqu’à une solution." }),
+      (n) => ({ title: `Apprends ${1 + n} règle${n ? "s" : ""} de grammaire`, description: "Invente un exemple par règle." }),
+      () => ({ title: "Compare deux points de vue sur un sujet", description: "Note une différence." }),
+      () => ({ title: "Relis une ancienne note", description: "Ajoute une idée ou une question." }),
+      () => ({ title: "Explique un concept à voix haute", description: "Fais-le en moins de deux minutes." }),
+      (n) => ({ title: `Regarde une leçon de ${10 + n * 5} min`, description: "Note trois points utiles." }),
+      (n) => ({ title: `Fais un quiz de ${5 + n * 2} questions`, description: "Réponds sans regarder tes notes." }),
+      (n) => ({ title: `Apprends ${2 + n} raccourcis clavier`, description: "Teste-les tout de suite." }),
+      (n) => ({ title: `Crée une carte mentale en ${3 + n} branches`, description: "Relie les idées entre elles." }),
+      (n) => ({ title: `Révise ${5 + n * 2} cartes mémoire`, description: "Essaie de répondre avant de retourner la carte." }),
+      (n) => ({ title: `Étudie une compétence pendant ${10 + n * 5} min`, description: "Fais un exercice pratique." }),
+      () => ({ title: "Vérifie une information avec deux sources", description: "Note les liens à garder." }),
+      (n) => ({ title: `Résous ${5 + n * 2} calculs de tête`, description: "Vérifie ensuite tes réponses." }),
+      (n) => ({ title: `Écoute ${10 + n * 5} min dans une autre langue`, description: "Note trois mots entendus." }),
+      (n) => ({ title: `Fais une synthèse en ${3 + n} phrases`, description: "Garde seulement l’essentiel." }),
+      () => ({ title: "Compare deux méthodes pour apprendre", description: "Choisis celle qui te convient." }),
+      () => ({ title: "Écris une question à approfondir", description: "Cherche une première réponse." }),
+      (n) => ({ title: `Apprends ${3 + n} termes sur un nouveau sujet`, description: "Explique-les avec tes mots." }),
+      () => ({ title: "Rappelle de mémoire ce que tu as lu", description: "Écris les idées sans rouvrir le livre." }),
+      () => ({ title: "Résous une énigme logique", description: "Explique ton raisonnement." }),
+      (n) => ({ title: `Explore un sujet nouveau pendant ${10 + n * 5} min`, description: "Note une question à approfondir." })
+    ]
   },
   {
-    category: "Maisongaudino",
-    tasks: [
-      "Dessine une silhouette inspirée par ta journée", "Crée une association de trois couleurs", "Photographie une matière ou un détail inspirant", "Imagine une pièce signature pour la marque", "Fais un tableau de références visuelles", "Esquisse un logo ou un monogramme", "Écris une phrase qui exprime l'univers de la marque", "Étudie la coupe d'un vêtement que tu aimes", "Imagine une tenue complète autour d'une pièce", "Liste des matières à explorer", "Dessine trois variantes d'un même détail", "Range et légende une référence créative", "Prépare une idée de contenu pour la marque", "Observe une vitrine et note ce qui attire l'œil", "Écris une prochaine petite étape pour le projet"
-    ],
-    stages: ["Premier trait", "Exploration", "Intention", "Mise en forme", "Partage"],
-    levels: ["Premier trait — accorde 10 minutes à cette idée et garde une première trace.", "Exploration — consacre 15 minutes et crée une deuxième variation.", "Intention — prends 20 minutes et précise le détail qui rend l'idée unique.", "Mise en forme — garde 25 minutes pour rendre le résultat présentable.", "Partage — consacre 30 minutes et prépare une version à montrer ou archiver."]
+    category: "Maisongaudino", code: "brand", tasks: [
+      (n) => ({ title: `Dessine un t-shirt ${["classique", "oversize", "sport", "minimaliste", "signature"][n]}`, description: "Montre la coupe, le col et les manches." }),
+      (n) => ({ title: `Crée un moodboard avec ${5 + n * 2} images`, description: "Choisis une direction pour la marque." }),
+      (n) => ({ title: `Choisis ${3 + n} couleurs pour une pièce`, description: "Note les références de couleur." }),
+      () => ({ title: "Dessine le devant et le dos d’un t-shirt", description: "Ajoute un détail reconnaissable." }),
+      (n) => ({ title: `Esquisse ${1 + n} logo${n ? "s" : ""} pour Maisongaudino`, description: "Teste une version monochrome." }),
+      (n) => ({ title: `Compare ${2 + n} coupes de t-shirt`, description: "Note celle qui correspond le mieux à la marque." }),
+      () => ({ title: "Imagine une pièce signature", description: "Décris sa forme et son détail unique." }),
+      (n) => ({ title: `Repère ${3 + n * 2} matières pour un t-shirt`, description: "Note leur toucher et leur usage." }),
+      () => ({ title: "Photographie un détail qui t’inspire", description: "Archive-le dans My Brain." }),
+      (n) => ({ title: `Écris une fiche produit de ${50 + n * 25} mots`, description: "Présente la coupe et la matière." }),
+      () => ({ title: "Crée une étiquette pour un vêtement", description: "Ajoute le nom et un symbole." }),
+      (n) => ({ title: `Dessine ${2 + n} variantes d’un même col`, description: "Choisis ta version préférée." }),
+      () => ({ title: "Prépare une photo ou un post pour la marque", description: "Écris une légende courte." }),
+      (n) => ({ title: `Étudie ${2 + n} marques de vêtements`, description: "Note une idée à adapter à ton univers." }),
+      () => ({ title: "Fixe la prochaine étape de Maisongaudino", description: "Écris une action réalisable cette semaine." }),
+      (n) => ({ title: `Décris ${2 + n} personnes qui porteraient la marque`, description: "Note leurs besoins et leurs goûts." }),
+      (n) => ({ title: `Écris ${2 + n} idées de slogan`, description: "Garde la plus mémorable." }),
+      () => ({ title: "Prépare une fiche technique de t-shirt", description: "Note coupe, matière et finitions." }),
+      (n) => ({ title: `Dessine ${2 + n} variantes d’un vêtement`, description: "Fais ressortir une seule différence." }),
+      () => ({ title: "Choisis une matière pour un t-shirt", description: "Note son confort et son entretien." }),
+      (n) => ({ title: `Repère ${2 + n} marques au même positionnement`, description: "Note ce qui rend la tienne unique." }),
+      () => ({ title: "Imagine l’emballage d’une commande", description: "Dessine une version simple." }),
+      (n) => ({ title: `Planifie ${2 + n} publications pour la marque`, description: "Donne une idée claire à chacune." }),
+      () => ({ title: "Demande un avis sur une idée de t-shirt", description: "Pose une question précise." }),
+      () => ({ title: "Crée une page de présentation de la marque", description: "Écris une phrase et ajoute un visuel." }),
+      () => ({ title: "Nomme une mini-collection", description: "Trouve un nom lié à son univers." }),
+      (n) => ({ title: `Imagine ${2 + n} détails de finition`, description: "Choisis ceux qui peuvent devenir signature." }),
+      (n) => ({ title: `Compare ${2 + n} prix de t-shirts`, description: "Note ce qui est inclus dans le prix." }),
+      () => ({ title: "Prépare une séance photo produit", description: "Choisis décor, lumière et cadrage." }),
+      () => ({ title: "Écris l’histoire d’une pièce Maisongaudino", description: "Raconte son idée en quelques lignes." }),
+      (n) => ({ title: `Liste ${3 + n} étapes pour sortir une pièce`, description: "Repère la prochaine action utile." })
+    ]
   },
   {
-    category: "Sport",
-    tasks: [
-      "Fais une marche active", "Fais une séance douce de mobilité", "Suis un petit circuit au poids du corps", "Pédale à un rythme confortable", "Cours ou alterne course et marche", "Étire les zones qui en ont besoin", "Fais une séance de renforcement adaptée", "Danse sur quelques morceaux", "Sors prendre l'air et bouge", "Fais quelques exercices d'équilibre", "Répète un mouvement sportif que tu apprends", "Fais une randonnée ou un parcours dehors", "Essaie une courte séance de yoga", "Fais une récupération active", "Choisis un mouvement qui te fait du bien"
-    ],
-    stages: ["Mise en route", "Régularité", "Endurance", "Progression", "Autonomie"],
-    levels: ["Mise en route — bouge 10 minutes, à une intensité confortable.", "Régularité — prends 15 minutes et garde un rythme où tu peux parler.", "Endurance — consacre 20 minutes en restant à l'écoute de ton corps.", "Progression — accorde 25 minutes à cette séance, avec des pauses si besoin.", "Autonomie — bouge 30 minutes à ton rythme et note comment tu te sens après."]
+    category: "Sport", code: "sport", tasks: [
+      (n) => ({ title: `Fais ${[20, 22, 25, 28, 30][n]} pompes`, description: "Sur les genoux si tu préfères." }),
+      (n) => ({ title: `Fais ${[20, 25, 30, 35, 40][n]} squats`, description: "Garde un mouvement maîtrisé." }),
+      (n) => ({ title: `Marche ${20 + n * 5} minutes`, description: "À un rythme confortable." }),
+      (n) => ({ title: `Tiens la planche ${[30, 40, 50, 60, 75][n]} secondes`, description: "Tu peux fractionner en séries." }),
+      (n) => ({ title: `Fais ${10 + n * 2} fentes par jambe`, description: "Adapte l’amplitude à ton rythme." }),
+      (n) => ({ title: `Fais ${10 + n * 2} minutes de mobilité`, description: "Bouge doucement les articulations." }),
+      (n) => ({ title: `Fais ${15 + n * 5} ponts fessiers`, description: "Réalise le mouvement sans précipitation." }),
+      (n) => ({ title: `Fais ${20 + n * 5} jumping jacks`, description: "Remplace-les par des pas latéraux si besoin." }),
+      (n) => ({ title: `Tiens la chaise ${[30, 40, 50, 60, 75][n]} secondes`, description: "Fais une pause si nécessaire." }),
+      (n) => ({ title: `Pédale ou marche vite ${20 + n * 5} minutes`, description: "Choisis l’activité qui te convient." }),
+      (n) => ({ title: `Fais ${10 + n * 2} relevés de bassin par jambe`, description: "Garde un rythme régulier." }),
+      (n) => ({ title: `Tiens l’équilibre ${20 + n * 5} secondes par côté`, description: "Près d’un support si besoin." }),
+      (n) => ({ title: `Fais ${5 + n} salutations au soleil`, description: "Sans forcer les étirements." }),
+      (n) => ({ title: `Fais ${10 + n * 5} minutes de récupération active`, description: "Marche doucement ou étire-toi." }),
+      (n) => ({ title: `Fais ${10 + n * 2} dead bugs par côté`, description: "Garde le dos stable." }),
+      (n) => ({ title: `Fais ${8 + n * 2} pompes inclinées`, description: "Appuie-toi sur un mur ou un support stable." }),
+      (n) => ({ title: `Tiens la planche latérale ${15 + n * 5} sec par côté`, description: "Pose un genou au sol si besoin." }),
+      (n) => ({ title: `Fais ${8 + n * 2} bird dogs par côté`, description: "Bouge lentement et garde l’équilibre." }),
+      (n) => ({ title: `Danse ou bouge pendant ${10 + n * 5} min`, description: "Choisis un rythme agréable." }),
+      (n) => ({ title: `Fais ${8 + n * 2} montées de genoux par jambe`, description: "Reste près d’un support si nécessaire." }),
+      (n) => ({ title: `Fais ${10 + n * 2} extensions mollets`, description: "Tiens-toi à une chaise si besoin." }),
+      (n) => ({ title: `Marche à bon rythme pendant ${15 + n * 5} min`, description: "Ralentis dès que tu en as besoin." }),
+      (n) => ({ title: `Fais ${8 + n * 2} relevés de buste contrôlés`, description: "Garde une amplitude confortable." }),
+      (n) => ({ title: `Fais ${10 + n * 2} extensions de bras avec une bouteille`, description: "Choisis une charge légère." }),
+      (n) => ({ title: `Étire-toi doucement pendant ${5 + n * 2} min`, description: "Arrête si un mouvement fait mal." }),
+      (n) => ({ title: `Fais ${8 + n * 2} squats sur chaise`, description: "Assieds-toi puis relève-toi à ton rythme." }),
+      (n) => ({ title: `Fais ${10 + n * 2} rotations d’épaules`, description: "Garde les mouvements souples." }),
+      (n) => ({ title: `Fais ${8 + n * 2} fentes arrière par jambe`, description: "Réduis l’amplitude si nécessaire." }),
+      (n) => ({ title: `Monte et descends une marche ${10 + n * 2} fois`, description: "Utilise une marche stable et un appui." }),
+      (n) => ({ title: `Fais ${10 + n * 5} min de mobilité du dos`, description: "Enchaîne quelques mouvements doux." })
+    ]
   },
   {
-    category: "Discipline",
-    tasks: [
-      "Prépare ton espace pour la prochaine tâche", "Écris les trois priorités de ta journée", "Termine une petite tâche repoussée", "Range un endroit qui te ralentit", "Prépare tes affaires pour demain", "Fais une session de travail sans notifications", "Planifie une étape concrète pour un projet", "Commence ta tâche avant de te sentir prêt", "Fais un bilan simple de ta journée", "Respecte une heure de coucher choisie", "Note une dépense et sa catégorie", "Consacre un moment à une tâche administrative", "Éloigne ton téléphone pendant une activité", "Découpe une tâche compliquée en petites étapes", "Tiens une promesse que tu t'es faite"
-    ],
-    stages: ["Départ", "Cadre", "Attention", "Constance", "Ancrage"],
-    levels: ["Départ — réserve 5 minutes et commence sans attendre le moment parfait.", "Cadre — prépare le nécessaire avant de démarrer.", "Attention — accorde 15 minutes à cette action, sans changer de tâche.", "Constance — termine ce que tu as commencé et coche-le.", "Ancrage — note quand tu pourrais refaire cette action dans ta semaine."]
+    category: "Discipline", code: "discipline", tasks: [
+      () => ({ title: "Écris tes 3 priorités du jour", description: "Commence par la plus importante." }),
+      (n) => ({ title: `Range ton bureau pendant ${5 + n * 5} min`, description: "Garde seulement l’essentiel à portée." }),
+      () => ({ title: "Termine une tâche que tu repousses", description: "Choisis une tâche courte." }),
+      (n) => ({ title: `Planifie demain en ${5 + n * 2} minutes`, description: "Prépare tes trois priorités." }),
+      (n) => ({ title: `Travaille ${20 + n * 5} min sans notifications`, description: "Reste sur une seule tâche." }),
+      () => ({ title: "Prépare tes affaires pour demain", description: "Mets-les au même endroit." }),
+      (n) => ({ title: `Trie ${10 + n * 5} fichiers ou e-mails`, description: "Archive ou supprime ce qui ne sert plus." }),
+      (n) => ({ title: `Découpe un projet en ${3 + n} étapes`, description: "Écris la prochaine action." }),
+      () => ({ title: "Choisis une heure de coucher réaliste", description: "Prépare une alarme de rappel." }),
+      (n) => ({ title: `Fais une pause sans écran de ${10 + n * 5} min`, description: "Laisse ton téléphone de côté." }),
+      (n) => ({ title: `Note ${3 + n} dépenses du jour`, description: "Ajoute leur catégorie." }),
+      () => ({ title: "Nettoie une petite surface", description: "Minuteur de 10 minutes, puis stop." }),
+      () => ({ title: "Commence une tâche dans les 5 minutes", description: "Fais seulement le premier pas." }),
+      (n) => ({ title: `Consacre ${15 + n * 5} min à un projet`, description: "Coupe les notifications." }),
+      (n) => ({ title: `Écris un bilan de ${3 + n} lignes`, description: "Note une réussite et un prochain pas." }),
+      (n) => ({ title: `Range ${5 + n * 5} objets`, description: "Remets-les à leur place." }),
+      () => ({ title: "Écris une liste de trois tâches réalistes", description: "Commence par la plus importante." }),
+      (n) => ({ title: `Travaille ${15 + n * 5} min sans changer de tâche`, description: "Laisse ton téléphone de côté." }),
+      () => ({ title: "Prépare un repas simple", description: "Vérifie les ingrédients avant de commencer." }),
+      (n) => ({ title: `Trie ${5 + n * 5} photos ou documents`, description: "Garde ce qui te sera utile." }),
+      () => ({ title: "Choisis une tâche et commence-la maintenant", description: "Fais le premier geste, même petit." }),
+      () => ({ title: "Prépare un endroit calme pour demain", description: "Laisse le nécessaire à portée de main." }),
+      (n) => ({ title: `Consacre ${10 + n * 5} min à remettre une pièce en ordre`, description: "Occupe-toi d’une seule zone." }),
+      () => ({ title: "Note une dépense et son utilité", description: "Ajoute-la à la bonne catégorie." }),
+      () => ({ title: "Désactive une notification inutile", description: "Garde seulement celles qui t’aident." }),
+      (n) => ({ title: `Fais une pause de ${10 + n * 5} min sans écran`, description: "Étire-toi ou prends l’air." }),
+      () => ({ title: "Mets un document important à sa place", description: "Tu le retrouveras plus facilement." }),
+      (n) => ({ title: `Planifie ${1 + n} créneau${n ? "x" : ""} pour un projet`, description: "Ajoute-les à ton agenda." }),
+      () => ({ title: "Fais une tâche administrative courte", description: "Réponds à un message ou classe un papier." }),
+      () => ({ title: "Termine ta journée en préparant demain", description: "Choisis une seule priorité." })
+    ]
   },
   {
-    category: "Vie sociale & autonomie",
-    tasks: [
-      "Envoie un message sincère à une personne importante", "Propose un moment à partager avec quelqu'un", "Appelle un proche que tu n'as pas appelé récemment", "Exprime clairement un besoin ou une préférence", "Remercie quelqu'un pour une attention précise", "Prépare un repas simple pour toi", "Fais une démarche pratique par toi-même", "Demande de l'aide sur un point précis si nécessaire", "Prends des nouvelles d'une personne de ton entourage", "Organise un rendez-vous ou une sortie", "Fais une petite course en suivant ta liste", "Écoute quelqu'un sans regarder ton téléphone", "Apprends une tâche quotidienne utile", "Explore un endroit du quartier que tu connais peu", "Prends une décision pratique et assume-la"
-    ],
-    stages: ["Premier pas", "Initiative", "Présence", "Confiance", "Autonomie"],
-    levels: ["Premier pas — fais-le simplement et observe ce qui te met à l'aise.", "Initiative — prépare le nécessaire toi-même avant de commencer.", "Présence — accorde toute ton attention à la personne ou à la tâche.", "Confiance — prends l'initiative sans attendre un rappel extérieur.", "Autonomie — note ce qui pourrait t'aider à refaire ce geste facilement."]
+    category: "Vie sociale & autonomie", code: "social", tasks: [
+      () => ({ title: "Envoie un message à une personne qui compte", description: "Demande-lui comment elle va." }),
+      (n) => ({ title: `Appelle un proche pendant ${5 + n * 2} min`, description: "Prends de ses nouvelles." }),
+      () => ({ title: "Remercie quelqu’un pour une attention précise", description: "Dis-lui ce que cela t’a apporté." }),
+      () => ({ title: "Propose une date pour voir quelqu’un", description: "Envoie une proposition concrète." }),
+      (n) => ({ title: `Prépare un repas avec ${3 + Math.floor(n / 2)} ingrédients`, description: "Choisis une recette simple." }),
+      () => ({ title: "Fais une démarche pratique toi-même", description: "Un appel, un rendez-vous ou un formulaire." }),
+      (n) => ({ title: `Fais une course avec une liste de ${5 + n} articles`, description: "Vérifie ce qu’il te faut avant de partir." }),
+      (n) => ({ title: `Range un espace pendant ${10 + n * 2} min`, description: "Choisis une petite zone." }),
+      () => ({ title: "Exprime clairement un besoin ou une préférence", description: "Dis-le avec calme et simplicité." }),
+      () => ({ title: "Demande de l’aide sur un point précis", description: "Explique ce qui te bloque." }),
+      (n) => ({ title: `Explore un endroit du quartier pendant ${15 + n * 5} min`, description: "Choisis un itinéraire simple." }),
+      () => ({ title: "Partage un repas ou une pause sans téléphone", description: "Accorde toute ton attention." }),
+      () => ({ title: "Prends un rendez-vous utile", description: "Note la date dans ton calendrier." }),
+      () => ({ title: "Prépare ton sac ou tes documents pour demain", description: "Vérifie la liste une fois." }),
+      (n) => ({ title: `Fais ${1 + n} tâche${n ? "s" : ""} administrative${n ? "s" : ""}`, description: "Commence par la plus rapide." }),
+      () => ({ title: "Demande à quelqu’un comment se passe sa journée", description: "Prends le temps d’écouter sa réponse." }),
+      () => ({ title: "Propose ton aide sur une chose précise", description: "Choisis quelque chose de simple." }),
+      () => ({ title: "Prépare un repas pour toi ou quelqu’un", description: "Choisis une recette que tu sais faire." }),
+      (n) => ({ title: `Prépare une liste de ${5 + n} courses utiles`, description: "Vérifie tes placards avant de partir." }),
+      () => ({ title: "Demande un renseignement en personne", description: "Dans un commerce ou un lieu public." }),
+      () => ({ title: "Organise une sortie simple avec un proche", description: "Propose un jour et une activité." }),
+      () => ({ title: "Range et prépare ton espace de vie", description: "Choisis un endroit que tu utilises souvent." }),
+      () => ({ title: "Prends des nouvelles d’une personne que tu vois peu", description: "Envoie un message sincère." }),
+      () => ({ title: "Fais une démarche sans la repousser", description: "Appelle, écris ou prends rendez-vous." }),
+      () => ({ title: "Prépare tes affaires pour une activité", description: "Vérifie l’heure et le trajet." }),
+      (n) => ({ title: `Repère ${2 + n} services utiles près de chez toi`, description: "Note leurs horaires et adresses." }),
+      () => ({ title: "Fais une activité sans téléphone avec quelqu’un", description: "Profite pleinement du moment." }),
+      () => ({ title: "Exprime un merci à quelqu’un", description: "Précise ce que tu as apprécié." }),
+      () => ({ title: "Prends une décision pratique par toi-même", description: "Choisis la prochaine étape et fais-la." }),
+      () => ({ title: "Prépare ton itinéraire pour un prochain rendez-vous", description: "Vérifie le trajet et l’horaire." })
+    ]
   }
 ];
 
-const CHALLENGES = (() => {
-  const byCategory = CHALLENGE_PLANS.map((plan, categoryIndex) => {
-    const items = [];
-    for (let i = 0; i < 73; i += 1) {
-      const level = Math.floor(i / plan.tasks.length);
-      const task = plan.tasks[i % plan.tasks.length];
-      items.push({ id: `C${String(categoryIndex * 73 + i + 1).padStart(3, "0")}`, number: 0, category: plan.category, title: `${task} — ${plan.stages[level]}`, description: plan.levels[level] });
-    }
-    return items;
+const CHALLENGE_DAYS = Array.from({ length: 365 }, (_, dayIndex) => {
+  return CHALLENGE_PLANS.map((plan, categoryIndex) => {
+    const taskIndex = dayIndex % plan.tasks.length;
+    const level = Math.min(4, Math.floor(dayIndex / plan.tasks.length));
+    const task = plan.tasks[taskIndex](level);
+    return {
+      id: `D${String(dayIndex + 1).padStart(3, "0")}-${plan.code}`,
+      day: dayIndex + 1,
+      slot: categoryIndex + 1,
+      category: plan.category,
+      title: task.title,
+      description: task.description,
+      level: level + 1
+    };
   });
-  const all = [];
-  for (let round = 0; round < 73; round += 1) {
-    byCategory.forEach((items) => all.push(items[round]));
+});
+const CHALLENGES = CHALLENGE_DAYS.flat();
+const CHALLENGE_IDS = new Set(CHALLENGES.map((challenge) => challenge.id));
+
+function normalizeChallengeLog(source) {
+  const normalized = {};
+  for (const [sourceId, value] of Object.entries(source || {})) {
+    let id = sourceId;
+    const legacy = /^C(\d{3})$/.exec(sourceId);
+    if (legacy) {
+      const oldNumber = Number(legacy[1]);
+      if (oldNumber < 1 || oldNumber > 365) continue;
+      const categoryIndex = Math.floor((oldNumber - 1) / 73);
+      const day = ((oldNumber - 1) % 73) + 1;
+      id = `D${String(day).padStart(3, "0")}-${CHALLENGE_PLANS[categoryIndex].code}`;
+    }
+    if (!CHALLENGE_IDS.has(id) || !value || typeof value !== "object") continue;
+    const completedAt = isValidDateKey(value.completedAt) ? value.completedAt : null;
+    const comment = typeof value.comment === "string" ? value.comment.slice(0, 2000) : "";
+    if (completedAt || comment) normalized[id] = { completedAt, comment };
   }
-  return all.map((item, index) => ({ ...item, number: index + 1 }));
-})();
+  return normalized;
+}
 
 function localDateKey(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function isValidDateKey(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return false;
+  const date = new Date(`${value}T00:00:00`);
+  return !Number.isNaN(date.getTime()) && localDateKey(date) === value;
+}
+
+function inferChallengeStartDate(challengeLog = {}) {
+  const dates = Object.values(challengeLog)
+    .map((entry) => entry?.completedAt)
+    .filter(isValidDateKey)
+    .sort();
+  return dates[0] || localDateKey();
 }
 
 function uid() {
@@ -112,6 +279,7 @@ function sampleState() {
   const stamp = new Date().toISOString();
   return {
     version: 1,
+    startedAt: localDateKey(),
     notes: [
       { id: "sample-idea", title: "Les petites boucles font les grandes habitudes", type: "Apprentissage", category: "Personnel", content: "Réduire une action à un premier geste facile à refaire. Une fois le rythme installé, l'amélioration devient plus naturelle.", tags: ["habitudes", "discipline"], createdAt: stamp, updatedAt: stamp },
       { id: "sample-brand", title: "Piste pour Maisongaudino", type: "Idée", category: "Maisongaudino", content: "Explorer un vestiaire essentiel avec une silhouette forte, des matières tactiles et une palette sobre.", tags: ["création", "marque"], createdAt: stamp, updatedAt: stamp },
@@ -124,10 +292,20 @@ function sampleState() {
 function readState() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return sampleState();
+    if (!stored) {
+      const initial = sampleState();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+      return initial;
+    }
     const parsed = JSON.parse(stored);
     if (!parsed || parsed.version !== 1 || !Array.isArray(parsed.notes) || !parsed.challengeLog || typeof parsed.challengeLog !== "object") return sampleState();
-    return { version: 1, notes: parsed.notes, challengeLog: parsed.challengeLog };
+    const challengeLog = normalizeChallengeLog(parsed.challengeLog);
+    return {
+      version: 1,
+      startedAt: isValidDateKey(parsed.startedAt) ? parsed.startedAt : inferChallengeStartDate(challengeLog),
+      notes: parsed.notes,
+      challengeLog
+    };
   } catch {
     return sampleState();
   }
@@ -137,7 +315,7 @@ let state = readState();
 let currentView = "dashboard";
 let challengeFilter = "Toutes";
 let challengeSearch = "";
-let challengePage = 0;
+let selectedChallengeDay = currentDayNumber();
 let calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let toastTimeout;
 let deferredInstallPrompt = null;
@@ -176,15 +354,14 @@ function formatDate(value, options = { day: "numeric", month: "short", year: "nu
   return new Intl.DateTimeFormat("fr-FR", options).format(date);
 }
 
-function todayChallenge() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  const dayOfYear = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())) / 86400000);
-  return CHALLENGES[Math.min(Math.max(dayOfYear, 1), 365) - 1];
+function currentDayNumber(date = new Date()) {
+  const start = new Date(`${state.startedAt}T00:00:00`);
+  const dayIndex = Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())) / 86400000);
+  return Math.min(Math.max(dayIndex + 1, 1), 365);
 }
 
 function completedEntries() {
-  return Object.entries(state.challengeLog).filter(([, log]) => log && log.completedAt);
+  return Object.entries(state.challengeLog).filter(([id, log]) => CHALLENGE_IDS.has(id) && log && log.completedAt);
 }
 
 function completedDates() {
@@ -220,10 +397,24 @@ function completedForCategory(category) {
   return CHALLENGES.filter((challenge) => challenge.category === category && state.challengeLog[challenge.id]?.completedAt).length;
 }
 
+function completedForDay(day) {
+  return (CHALLENGE_DAYS[day - 1] || []).filter((challenge) => state.challengeLog[challenge.id]?.completedAt).length;
+}
+
+function completedDayCount() {
+  return CHALLENGE_DAYS.filter((day) => day.length && day.every((challenge) => state.challengeLog[challenge.id]?.completedAt)).length;
+}
+
+function dateForChallengeDay(day) {
+  const date = new Date(`${state.startedAt}T00:00:00`);
+  date.setDate(date.getDate() + day - 1);
+  return date;
+}
+
 function renderDashboard() {
   const done = completedEntries().length;
   const noteCount = state.notes.length;
-  const progress = Math.min(100, Math.round((done / 365) * 100));
+  const progress = Math.min(100, Math.round((done / CHALLENGES.length) * 100));
   return `
     <section class="welcome">
       <div>
@@ -241,13 +432,13 @@ function renderDashboard() {
       </a>
       <a class="dashboard-card" href="#challenges" data-view="challenges">
         <span class="card-icon" data-icon="target"></span><span class="card-category">DÉVELOPPEMENT</span>
-        <h3>365 Challenges</h3><p>Un défi dans chacun de tes domaines.</p><span class="card-link">Voir les défis ${icon("arrow")}</span>
+        <h3>365 Challenges</h3><p>Cinq actions, cinq domaines, chaque jour.</p><span class="card-link">Voir les défis ${icon("arrow")}</span>
       </a>
     </section>
     <div class="section-heading"><h2>Ton évolution</h2><span>VUE D’ENSEMBLE</span></div>
     <section class="stats-grid dashboard-stats" aria-label="Statistiques personnelles">
       <article class="stat-card"><span>NOTES ENREGISTRÉES</span><strong>${noteCount}</strong></article>
-      <article class="stat-card"><span>DÉFIS TERMINÉS</span><strong>${done}</strong></article>
+      <article class="stat-card"><span>ACTIONS VALIDÉES</span><strong>${done}</strong></article>
       <article class="stat-card"><span>PROGRESSION</span><strong>${progress}%</strong></article>
     </section>`;
 }
@@ -270,7 +461,7 @@ function renderBrain() {
   });
   const categories = [...new Set(state.notes.map((note) => note.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
   document.querySelector("#mainView").innerHTML = `
-    ${pageHeading("MY BRAIN", "Gardez l’essentiel.", "Capturez et retrouvez vos idées.", `<button class="button button-dark" data-action="add-note"><span data-icon="plus"></span> Nouvelle note</button>`)}
+    ${pageHeading("MY BRAIN", "Tes idées, au même endroit.", "Notes, découvertes, apprentissages.", `<button class="button button-dark" data-action="add-note"><span data-icon="plus"></span> Capture guidée</button>`)}
     <div class="toolbar">
       <label class="search-box"><span data-icon="search"></span><input id="brainSearch" type="search" placeholder="Rechercher…" value="${escapeHtml(search)}" /></label>
       <select class="filter-select" id="brainCategory" aria-label="Filtrer par classement"><option>Toutes les catégories</option>${categories.map((item) => `<option${item === category ? " selected" : ""}>${escapeHtml(item)}</option>`).join("")}</select>
@@ -307,40 +498,53 @@ function emptyState(iconName, title, description, button = "") {
 
 function renderChallenges() {
   const query = challengeSearch.trim().toLocaleLowerCase("fr");
-  const filtered = CHALLENGES.filter((challenge) => (challengeFilter === "Toutes" || challenge.category === challengeFilter) && (!query || `${challenge.title} ${challenge.description} ${challenge.category} ${challenge.number}`.toLocaleLowerCase("fr").includes(query)));
-  const perPage = 12;
-  const pages = Math.max(1, Math.ceil(filtered.length / perPage));
-  challengePage = Math.min(challengePage, pages - 1);
-  const pageItems = filtered.slice(challengePage * perPage, (challengePage + 1) * perPage);
+  const dayPack = CHALLENGE_DAYS[selectedChallengeDay - 1];
+  const filtered = dayPack.filter((challenge) => (challengeFilter === "Toutes" || challenge.category === challengeFilter) && (!query || `${challenge.title} ${challenge.description} ${challenge.category}`.toLocaleLowerCase("fr").includes(query)));
   const done = completedEntries().length;
+  const doneToday = completedForDay(selectedChallengeDay);
   const streak = streakStats().current;
-  const progress = Math.round(done / 365 * 100);
+  const progress = Math.round(doneToday / 5 * 100);
+  const dayDate = formatDate(dateForChallengeDay(selectedChallengeDay), { weekday: "long", day: "numeric", month: "long" });
+  const todayNumber = currentDayNumber();
   document.querySelector("#mainView").innerHTML = `
-    ${pageHeading("DÉVELOPPEMENT", "365 Challenges", "Une année. Cinq domaines.")}
+    ${pageHeading("365 CHALLENGES", "Ton programme du jour.", "Cinq actions. Cinq domaines.")}
+    <div class="challenge-day-nav">
+      <button class="day-nav-button" data-action="challenge-day" data-delta="-1" aria-label="Jour précédent" ${selectedChallengeDay === 1 ? "disabled" : ""}>${icon("left")}</button>
+      <div class="day-nav-center"><span>JOUR</span><div class="day-number-line"><input id="challengeDayInput" type="number" min="1" max="365" value="${selectedChallengeDay}" aria-label="Choisir un jour" /><span>/ 365</span></div><small>${escapeHtml(dayDate)}</small></div>
+      ${selectedChallengeDay !== todayNumber ? `<button class="day-nav-today" data-action="challenge-today">Aujourd’hui</button>` : ""}
+      <button class="day-nav-button" data-action="challenge-day" data-delta="1" aria-label="Jour suivant" ${selectedChallengeDay === 365 ? "disabled" : ""}>${icon("right")}</button>
+    </div>
     <section class="challenge-overview">
-      <div class="challenge-overview-top"><div><h3>${done} défis réalisés</h3><p>Sur 365 cette année.</p></div><span class="challenge-percentage">${progress}%</span></div>
+      <div class="challenge-overview-top"><div><h3>${doneToday} / 5 actions validées</h3><p>Jour ${String(selectedChallengeDay).padStart(3, "0")} · ${escapeHtml(dayDate)}</p></div><span class="challenge-percentage">${progress}%</span></div>
       <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
     </section>
     <section class="challenge-stats">
-      <article class="challenge-stat"><span>CATÉGORIES</span><strong>${CATEGORIES.length}</strong></article>
-      <article class="challenge-stat"><span>JOURS ACTIFS</span><strong>${completedDates().length}</strong></article>
+      <article class="challenge-stat"><span>ACTIONS VALIDÉES</span><strong>${done}</strong></article>
+      <article class="challenge-stat"><span>JOURS COMPLETS</span><strong>${completedDayCount()}</strong></article>
       <article class="challenge-stat"><span>SÉRIE ACTUELLE</span><strong>${streak}</strong></article>
     </section>
     <div class="toolbar">
-      <label class="search-box"><span data-icon="search"></span><input id="challengeSearch" type="search" placeholder="Rechercher un défi…" value="${escapeHtml(challengeSearch)}" /></label>
-      <span class="toolbar-spacer"></span><span class="result-count">${filtered.length} défi${filtered.length === 1 ? "" : "s"}</span>
+      <label class="search-box"><span data-icon="search"></span><input id="challengeSearch" type="search" placeholder="Filtrer les 5 défis…" value="${escapeHtml(challengeSearch)}" /></label>
+      <span class="toolbar-spacer"></span><span class="result-count">${filtered.length} / 5</span>
     </div>
     <div class="category-tabs"><button class="category-tab ${challengeFilter === "Toutes" ? "active" : ""}" data-category="Toutes">Toutes les catégories</button>${CATEGORIES.map((category) => `<button class="category-tab ${challengeFilter === category ? "active" : ""}" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`).join("")}</div>
-    ${pageItems.length ? `<div class="challenge-list">${pageItems.map(challengeCard).join("")}</div>` : emptyState("target", "Aucun défi trouvé", "Essayez un autre terme.")}
-    ${filtered.length > perPage ? `<div class="pagination"><button class="icon-button" data-action="challenge-page" data-delta="-1" aria-label="Page précédente" ${challengePage === 0 ? "disabled" : ""}>${icon("left")}</button><span>Page ${challengePage + 1} sur ${pages}</span><button class="icon-button" data-action="challenge-page" data-delta="1" aria-label="Page suivante" ${challengePage >= pages - 1 ? "disabled" : ""}>${icon("right")}</button></div>` : ""}`;
+    ${filtered.length ? `<div class="challenge-list">${filtered.map(challengeCard).join("")}</div>` : emptyState("target", "Aucune action trouvée", "Modifie ta recherche.")}`;
   replaceIcons(document.querySelector("#mainView"));
   document.querySelector("#challengeSearch")?.addEventListener("input", (event) => {
     challengeSearch = event.target.value;
-    challengePage = 0;
     renderChallenges();
     const input = document.querySelector("#challengeSearch");
     input?.focus();
     if (input) input.setSelectionRange(challengeSearch.length, challengeSearch.length);
+  });
+  document.querySelector("#challengeDayInput")?.addEventListener("change", (event) => {
+    const day = Number(event.target.value);
+    if (Number.isInteger(day) && day >= 1 && day <= 365) {
+      selectedChallengeDay = day;
+      renderChallenges();
+    } else {
+      event.target.value = selectedChallengeDay;
+    }
   });
 }
 
@@ -348,7 +552,7 @@ function challengeCard(challenge) {
   const log = state.challengeLog[challenge.id] || {};
   const done = !!log.completedAt;
   const comment = (log.comment || "").trim();
-  return `<article class="challenge-card ${done ? "is-done" : ""}"><button class="challenge-toggle ${done ? "checked" : ""}" data-action="toggle-challenge" data-id="${challenge.id}" aria-label="${done ? "Annuler" : "Valider"} le défi ${challenge.number}">${done ? icon("check") : ""}</button><div class="challenge-copy"><div class="challenge-copy-top"><span class="challenge-index">DÉFI ${String(challenge.number).padStart(3, "0")}</span><h3 class="challenge-title">${escapeHtml(challenge.title)}</h3></div><p class="challenge-desc">${escapeHtml(challenge.description)}</p><div class="challenge-foot"><span class="tag">${escapeHtml(challenge.category)}</span>${done ? `<span>Validé le ${formatDate(log.completedAt, { day: "numeric", month: "short" })}</span>` : ""}${comment ? `<span class="comment-indicator">${icon("message")} Commenté</span>` : ""}</div></div><button class="challenge-comment-button ${comment ? "has-comment" : ""}" data-action="edit-comment" data-id="${challenge.id}" aria-label="${comment ? "Modifier le commentaire" : "Ajouter un commentaire"}" title="Commenter">${icon("message")}</button></article>`;
+  return `<article class="challenge-card ${done ? "completed" : ""}"><div class="challenge-card-top"><span class="challenge-category">${escapeHtml(challenge.category)}</span><span class="challenge-number">ACTION ${challenge.slot} / 5</span></div><h3>${escapeHtml(challenge.title)}</h3><p>${escapeHtml(challenge.description)}</p><div class="challenge-card-bottom"><button class="challenge-check ${done ? "done" : ""}" data-action="toggle-challenge" data-id="${challenge.id}" aria-label="${done ? "Annuler" : "Valider"} ${escapeHtml(challenge.title)}">${done ? icon("check") : `<span class="check-empty"></span>`}${done ? "Validé" : "Valider"}</button><button class="challenge-comment-button ${comment ? "has-comment" : ""}" data-action="edit-comment" data-id="${challenge.id}" aria-label="${comment ? "Modifier le commentaire" : "Ajouter un commentaire"}" title="Commentaire">${icon("message")}<span>${comment ? "Noté" : "Commenter"}</span></button></div>${comment ? `<div class="challenge-saved-comment">${icon("message")} ${escapeHtml(comment)}</div>` : ""}</article>`;
 }
 
 function renderProgress() {
@@ -363,12 +567,12 @@ function renderProgress() {
   const days = [...Array(firstOffset).fill(null), ...Array.from({ length: daysInMonth }, (_, index) => index + 1)];
   const streak = streakStats();
   const done = completedEntries().length;
-  const categoryCounts = CATEGORIES.map((category) => ({ category, count: completedForCategory(category), total: 73 }));
+  const categoryCounts = CATEGORIES.map((category) => ({ category, count: completedForCategory(category), total: 365 }));
   const monthDoneDays = new Set(completedDates().filter((key) => key.startsWith(`${year}-${String(monthIndex + 1).padStart(2, "0")}-`)));
   document.querySelector("#mainView").innerHTML = `
-    ${pageHeading("SUIVI", "Le chemin parcouru.", "Votre régularité, en un coup d’œil.")}
+    ${pageHeading("SUIVI", "Ta progression.", "Ton rythme, en un coup d’œil.")}
     <div class="stats-grid progress-stats">
-      ${statCard("target", "Défis", done, "sur 365")}
+      ${statCard("target", "Actions", done, `sur ${CHALLENGES.length}`)}
       ${statCard("calendar", "Jours actifs", completedDates().length, "au total")}
       ${statCard("flame", "Série", streak.current, streak.current === 1 ? "jour" : "jours")}
       ${statCard("spark", "Record", streak.best, streak.best === 1 ? "jour" : "jours")}
@@ -380,9 +584,9 @@ function renderProgress() {
       const hasProgress = monthDoneDays.has(key);
       return `<button class="calendar-day ${key === today ? "today" : ""} ${hasProgress ? "has-progress" : ""}" data-action="calendar-day" data-date="${key}" title="${hasProgress ? "Défi validé" : "Aucun défi validé"} le ${day}">${day}</button>`;
     }).join("")}</div><div class="calendar-legend"><span class="legend-dot"></span> Au moins un défi validé</div></section>
-      <section class="surface streak-panel"><div><div class="streak-main"><div class="eyebrow">VOTRE RYTHME</div><span class="streak-icon">${icon("flame")}</span></div><div class="streak-value">${streak.current}</div><p>${streak.current === 1 ? "jour consécutif en ce moment" : "jours consécutifs en ce moment"}</p></div><div class="streak-bottom"><div><strong>${streak.best}</strong><small>meilleure série</small></div><div><strong>${completedDates().length}</strong><small>jours actifs</small></div><div><strong>${Math.round(done / 365 * 100)}%</strong><small>du parcours</small></div></div></section>
+      <section class="surface streak-panel"><div><div class="streak-main"><div class="eyebrow">TON RYTHME</div><span class="streak-icon">${icon("flame")}</span></div><div class="streak-value">${streak.current}</div><p>${streak.current === 1 ? "jour consécutif" : "jours consécutifs"}</p></div><div class="streak-bottom"><div><strong>${streak.best}</strong><small>meilleure série</small></div><div><strong>${completedDates().length}</strong><small>jours actifs</small></div><div><strong>${Math.round(done / CHALLENGES.length * 100)}%</strong><small>du parcours</small></div></div></section>
     </div>
-    <section class="surface category-progress-panel"><div class="section-head"><h2>Vos domaines de vie</h2><span class="result-count">73 défis chacun</span></div><div class="category-progress-list">${categoryCounts.map(({ category, count, total }) => `<div class="category-progress-row"><span class="category-progress-name"><span class="mini-dot"></span>${escapeHtml(category)}</span><div class="category-progress-track"><span style="width:${Math.min(100, count / total * 100)}%"></span></div><span class="category-progress-value">${count} / ${total}</span></div>`).join("")}</div></section>`;
+    <section class="surface category-progress-panel"><div class="section-head"><h2>Tes domaines</h2><span class="result-count">1 action par jour</span></div><div class="category-progress-list">${categoryCounts.map(({ category, count, total }) => `<div class="category-progress-row"><span class="category-progress-name"><span class="mini-dot"></span>${escapeHtml(category)}</span><div class="category-progress-track"><span style="width:${Math.min(100, count / total * 100)}%"></span></div><span class="category-progress-value">${count} / ${total}</span></div>`).join("")}</div></section>`;
   replaceIcons(document.querySelector("#mainView"));
 }
 
@@ -402,7 +606,32 @@ function render() {
   replaceIcons(document.querySelector("#mainView"));
 }
 
+function noteTitleFromAnswer(answer) {
+  const firstLine = String(answer || "").trim().split(/\r?\n/)[0].trim();
+  const firstSentence = firstLine.split(/[.!?](?:\s|$)/)[0].trim();
+  const title = firstSentence || firstLine;
+  return title.length > 64 ? `${title.slice(0, 61).trimEnd()}…` : title;
+}
+
+function updateGuidedNotePreview() {
+  const answer = document.querySelector('#guidedNoteForm [name="remember"]').value;
+  const title = noteTitleFromAnswer(answer);
+  document.querySelector("#guidedNotePreview").textContent = title ? `Titre : ${title}` : "Le titre sera créé à partir de ta réponse.";
+}
+
+function openGuidedNoteDialog() {
+  const form = document.querySelector("#guidedNoteForm");
+  form.reset();
+  updateGuidedNotePreview();
+  document.querySelector("#guidedNoteDialog").showModal();
+  setTimeout(() => form.elements.remember.focus(), 50);
+}
+
 function openNoteDialog(note = null) {
+  if (!note) {
+    openGuidedNoteDialog();
+    return;
+  }
   const dialog = document.querySelector("#noteDialog");
   const form = document.querySelector("#noteForm");
   form.reset();
@@ -415,6 +644,40 @@ function openNoteDialog(note = null) {
   document.querySelector("#noteDialogTitle").textContent = note ? "Modifier la note" : "Nouvelle note";
   dialog.showModal();
   setTimeout(() => form.elements.title.focus(), 50);
+}
+
+function saveGuidedNote(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const remember = form.elements.remember.value.trim();
+  const reason = form.elements.reason.value.trim();
+  const nextStep = form.elements.nextStep.value.trim();
+  const now = new Date().toISOString();
+  const content = [
+    remember,
+    reason ? `Pourquoi le garder\n${reason}` : "",
+    nextStep ? `À creuser\n${nextStep}` : ""
+  ].filter(Boolean).join("\n\n");
+  const note = {
+    id: uid(),
+    title: noteTitleFromAnswer(remember) || "Nouvelle idée",
+    type: NOTE_TYPES.includes(form.elements.type.value) ? form.elements.type.value : "Note",
+    category: form.elements.category.value.trim() || "Personnel",
+    content,
+    tags: [...new Set(form.elements.tags.value.split(",").map((tag) => tag.trim()).filter(Boolean))],
+    createdAt: now,
+    updatedAt: now
+  };
+  state.notes.unshift(note);
+  persist();
+  document.querySelector("#guidedNoteDialog").close();
+  if (currentView !== "brain") location.hash = "brain";
+  else {
+    document.querySelector("#brainSearch").value = "";
+    document.querySelector("#brainCategory").value = "Toutes les catégories";
+    render();
+  }
+  showToast("Note créée dans My Brain.");
 }
 
 function saveNote(event) {
@@ -459,7 +722,7 @@ function openChallengeComment(id) {
   form.reset();
   form.elements.id.value = id;
   form.elements.comment.value = state.challengeLog[id]?.comment || "";
-  document.querySelector("#challengeDialogPrompt").textContent = `${String(challenge.number).padStart(3, "0")} · ${challenge.title}`;
+  document.querySelector("#challengeDialogPrompt").textContent = `Jour ${challenge.day} · ${challenge.category} — ${challenge.title}`;
   document.querySelector("#challengeDialog").showModal();
 }
 
@@ -497,14 +760,13 @@ function validImportedState(raw) {
   const notes = payload.notes.filter((note) => note && typeof note === "object" && typeof note.title === "string" && typeof note.content === "string").map((note) => ({
     id: String(note.id || uid()), title: note.title.slice(0, 100), type: NOTE_TYPES.includes(note.type) ? note.type : "Note", category: String(note.category || "Personnel").slice(0, 35), content: note.content.slice(0, 12000), tags: Array.isArray(note.tags) ? note.tags.filter((tag) => typeof tag === "string").slice(0, 30).map((tag) => tag.slice(0, 40)) : [], createdAt: validTimestamp(note.createdAt), updatedAt: validTimestamp(note.updatedAt)
   }));
-  const log = {};
-  for (const [id, value] of Object.entries(payload.challengeLog)) {
-    if (!CHALLENGES.some((challenge) => challenge.id === id) || !value || typeof value !== "object") continue;
-    const completedAt = /^\d{4}-\d{2}-\d{2}$/.test(value.completedAt || "") ? value.completedAt : null;
-    const comment = typeof value.comment === "string" ? value.comment.slice(0, 2000) : "";
-    if (completedAt || comment) log[id] = { completedAt, comment };
-  }
-  return { version: 1, notes, challengeLog: log };
+  const challengeLog = normalizeChallengeLog(payload.challengeLog);
+  return {
+    version: 1,
+    startedAt: isValidDateKey(payload.startedAt) ? payload.startedAt : inferChallengeStartDate(challengeLog),
+    notes,
+    challengeLog
+  };
 }
 
 function validTimestamp(value) {
@@ -565,7 +827,6 @@ document.addEventListener("click", (event) => {
   const category = event.target.closest("[data-category]");
   if (category) {
     challengeFilter = category.dataset.category;
-    challengePage = 0;
     renderChallenges();
     return;
   }
@@ -586,7 +847,18 @@ document.addEventListener("click", (event) => {
     }
   } else if (action === "toggle-challenge") toggleChallenge(id);
   else if (action === "edit-comment") openChallengeComment(id);
-  else if (action === "challenge-page") { challengePage += Number(actionNode.dataset.delta); renderChallenges(); }
+  else if (action === "challenge-day") {
+    selectedChallengeDay = Math.max(1, Math.min(365, selectedChallengeDay + Number(actionNode.dataset.delta)));
+    challengeFilter = "Toutes";
+    challengeSearch = "";
+    renderChallenges();
+  }
+  else if (action === "challenge-today") {
+    selectedChallengeDay = currentDayNumber();
+    challengeFilter = "Toutes";
+    challengeSearch = "";
+    renderChallenges();
+  }
   else if (action === "calendar-month") { calendarMonth.setMonth(calendarMonth.getMonth() + Number(actionNode.dataset.delta)); renderProgress(); }
   else if (action === "calendar-day") {
     const count = completedEntries().filter(([, log]) => log.completedAt === actionNode.dataset.date).length;
@@ -597,6 +869,8 @@ document.addEventListener("click", (event) => {
 
 document.querySelector("#quickAddButton").addEventListener("click", () => openNoteDialog());
 document.querySelector("#noteForm").addEventListener("submit", saveNote);
+document.querySelector("#guidedNoteForm").addEventListener("submit", saveGuidedNote);
+document.querySelector('#guidedNoteForm [name="remember"]').addEventListener("input", updateGuidedNotePreview);
 document.querySelector("#challengeForm").addEventListener("submit", saveChallengeComment);
 document.querySelector("#exportButton").addEventListener("click", exportBackup);
 document.querySelector("#importButton").addEventListener("click", () => document.querySelector("#importFile").click());
@@ -605,8 +879,31 @@ document.querySelector("#importButtonMobile").addEventListener("click", () => do
 document.querySelector("#importFile").addEventListener("change", (event) => importBackup(event.target.files?.[0]));
 window.addEventListener("hashchange", render);
 
-const topDate = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
-document.querySelector("#topbarDate").textContent = topDate.charAt(0).toLocaleUpperCase("fr") + topDate.slice(1);
+function setTopbarDate(date = new Date()) {
+  const label = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long" }).format(date);
+  document.querySelector("#topbarDate").textContent = label.charAt(0).toLocaleUpperCase("fr") + label.slice(1);
+}
+
+let activeDateKey = localDateKey();
+function refreshDateContext() {
+  const todayKey = localDateKey();
+  if (todayKey === activeDateKey) return;
+  const previousProgramDay = currentDayNumber(new Date(`${activeDateKey}T12:00:00`));
+  activeDateKey = todayKey;
+  setTopbarDate();
+  const todayProgramDay = currentDayNumber();
+  if (selectedChallengeDay === previousProgramDay) {
+    selectedChallengeDay = todayProgramDay;
+    challengeFilter = "Toutes";
+    challengeSearch = "";
+    if (currentView === "challenges") renderChallenges();
+  }
+  if (currentView === "progress") renderProgress();
+}
+
+setTopbarDate();
+window.setInterval(refreshDateContext, 30_000);
+document.addEventListener("visibilitychange", refreshDateContext);
 replaceIcons();
 render();
 configureInstall();
