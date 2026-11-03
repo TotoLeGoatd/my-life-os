@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f5f5f3" />
+    <meta name="description" content="My Life OS — votre espace personnel pour apprendre, avancer et garder le cap." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="My Life OS" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>My Life OS — votre espace personnel</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navigation principale">
+        <a class="brand" href="#dashboard" aria-label="My Life OS, accueil">
+          <span class="brand-mark">M<span>.</span></span>
+          <span class="brand-copy"><strong>my life os</strong></span>
+        </a>
+
+        <div class="nav-label">MENU</div>
+        <nav class="primary-nav">
+          <a class="nav-link active" href="#dashboard" data-view="dashboard"><span class="nav-icon" data-icon="grid"></span><span>Accueil</span></a>
+          <a class="nav-link" href="#brain" data-view="brain"><span class="nav-icon" data-icon="brain"></span><span>My Brain</span><span class="nav-count" id="noteCount">0</span></a>
+          <a class="nav-link" href="#challenges" data-view="challenges"><span class="nav-icon" data-icon="target"></span><span>365 Challenges</span></a>
+          <a class="nav-link" href="#progress" data-view="progress"><span class="nav-icon" data-icon="chart"></span><span>Suivi</span></a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-tools">
+            <button class="sidebar-tool" id="exportButton"><span data-icon="download"></span> Sauvegarder</button>
+            <button class="sidebar-tool" id="importButton"><span data-icon="upload"></span> Restaurer</button>
+            <input id="importFile" type="file" accept="application/json,.json" hidden />
+          </div>
+          <div class="profile"><span class="avatar">M</span><div><strong>Mon espace</strong><small>Données locales</small></div></div>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <header class="topbar">
+          <div class="topbar-heading"><span class="date-label" id="topbarDate"></span><h1 id="topbarPageTitle">Dashboard</h1></div>
+          <div class="topbar-actions">
+            <button class="icon-button" id="installButton" aria-label="Installer l’application" title="Installer l’application" hidden><span data-icon="download"></span></button>
+            <button class="icon-button mobile-only-action" id="exportButtonMobile" aria-label="Sauvegarder les données" title="Sauvegarder"><span data-icon="download"></span></button>
+            <button class="icon-button mobile-only-action" id="importButtonMobile" aria-label="Restaurer les données" title="Restaurer"><span data-icon="upload"></span></button>
+            <button class="button button-dark button-small" id="quickAddButton"><span data-icon="plus"></span><span>Nouvelle note</span></button>
+          </div>
+        </header>
+        <main id="mainView" class="main-content" tabindex="-1"></main>
+        <footer class="mobile-footer" aria-label="Navigation mobile">
+          <a class="mobile-nav-link active" href="#dashboard" data-view="dashboard"><span data-icon="grid"></span><small>Accueil</small></a>
+          <a class="mobile-nav-link" href="#brain" data-view="brain"><span data-icon="brain"></span><small>Brain</small></a>
+          <a class="mobile-nav-link" href="#challenges" data-view="challenges"><span data-icon="target"></span><small>Défis</small></a>
+          <a class="mobile-nav-link" href="#progress" data-view="progress"><span data-icon="chart"></span><small>Suivi</small></a>
+        </footer>
+      </div>
+    </div>
+
+    <dialog id="noteDialog" class="modal">
+      <form id="noteForm" class="modal-form">
+        <div class="modal-heading"><div><div class="eyebrow">MY BRAIN</div><h2 id="noteDialogTitle">Nouvelle note</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fermer"><span data-icon="close"></span></button></div>
+        <input type="hidden" name="id" />
+        <label class="field-label">Titre<input name="title" maxlength="100" placeholder="Une idée à garder…" required /></label>
+        <div class="field-row">
+          <label class="field-label">Type<select name="type"><option value="Note">Note</option><option value="Idée">Idée</option><option value="Découverte">Découverte</option><option value="Citation">Citation</option><option value="Apprentissage">Apprentissage</option></select></label>
+          <label class="field-label">Classement<input name="category" maxlength="35" list="categorySuggestions" placeholder="Personnel, lecture…" /><datalist id="categorySuggestions"><option>Personnel</option><option>Apprentissage</option><option>Idées</option><option>Maison</option><option>Maisongaudino</option><option>Lectures</option></datalist></label>
+        </div>
+        <label class="field-label">Contenu<textarea name="content" rows="6" maxlength="12000" placeholder="Notez ce que vous souhaitez retenir…" required></textarea></label>
+        <label class="field-label">Mots-clés <span class="field-hint">séparés par des virgules</span><input name="tags" maxlength="180" placeholder="créativité, à relire…" /></label>
+        <div class="modal-actions"><button class="button button-quiet close-dialog" type="button">Annuler</button><button class="button button-dark" type="submit"><span data-icon="check"></span> Enregistrer</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="challengeDialog" class="modal modal-narrow">
+      <form id="challengeForm" class="modal-form">
+        <div class="modal-heading"><div><div class="eyebrow">365 CHALLENGES</div><h2>Votre retour</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fermer"><span data-icon="close"></span></button></div>
+        <input type="hidden" name="id" />
+        <p id="challengeDialogPrompt" class="dialog-prompt"></p>
+        <label class="field-label">Commentaire<textarea name="comment" rows="5" maxlength="2000" placeholder="Une pensée, une difficulté, une petite victoire…"></textarea></label>
+        <div class="modal-actions"><button class="button button-quiet close-dialog" type="button">Annuler</button><button class="button button-dark" type="submit"><span data-icon="check"></span> Enregistrer</button></div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js" defer></script>
+  </body>
+</html>

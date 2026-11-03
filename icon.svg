@@ -1,0 +1,6 @@
+<!-- App icon shared by the browser tab and installed app. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="42" fill="#20201e"/>
+  <path d="M45 130V50l45 51 45-51v80" fill="none" stroke="#f6f6f4" stroke-linecap="round" stroke-linejoin="round" stroke-width="13"/>
+  <circle cx="151" cy="131" r="6" fill="#a8a8a1"/>
+</svg>
