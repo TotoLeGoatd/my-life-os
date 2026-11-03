@@ -78,7 +78,7 @@ const CHALLENGE_PLANS = [
       (n) => ({ title: `Compare ${2 + n} coupes de t-shirt`, description: "Note celle qui correspond le mieux à la marque." }),
       () => ({ title: "Imagine une pièce signature", description: "Décris sa forme et son détail unique." }),
       (n) => ({ title: `Repère ${3 + n * 2} matières pour un t-shirt`, description: "Note leur toucher et leur usage." }),
-      () => ({ title: "Photographie un détail qui t’inspire", description: "Archive-le dans My Brain." }),
+      () => ({ title: "Photographie un détail qui t’inspire", description: "Garde-le comme référence pour un futur design." }),
       (n) => ({ title: `Écris une fiche produit de ${50 + n * 25} mots`, description: "Présente la coupe et la matière." }),
       () => ({ title: "Crée une étiquette pour un vêtement", description: "Ajoute le nom et un symbole." }),
       (n) => ({ title: `Dessine ${2 + n} variantes d’un même col`, description: "Choisis ta version préférée." }),
@@ -276,15 +276,10 @@ function escapeHtml(value = "") {
 }
 
 function sampleState() {
-  const stamp = new Date().toISOString();
   return {
     version: 1,
     startedAt: localDateKey(),
-    notes: [
-      { id: "sample-idea", title: "Les petites boucles font les grandes habitudes", type: "Apprentissage", category: "Personnel", content: "Réduire une action à un premier geste facile à refaire. Une fois le rythme installé, l'amélioration devient plus naturelle.", tags: ["habitudes", "discipline"], createdAt: stamp, updatedAt: stamp },
-      { id: "sample-brand", title: "Piste pour Maisongaudino", type: "Idée", category: "Maisongaudino", content: "Explorer un vestiaire essentiel avec une silhouette forte, des matières tactiles et une palette sobre.", tags: ["création", "marque"], createdAt: stamp, updatedAt: stamp },
-      { id: "sample-quote", title: "À retenir", type: "Note", category: "Apprentissage", content: "Une bonne question peut ouvrir plus de portes qu'une réponse rapide.", tags: ["curiosité"], createdAt: stamp, updatedAt: stamp }
-    ],
+    notes: [],
     challengeLog: {}
   };
 }
@@ -412,80 +407,39 @@ function dateForChallengeDay(day) {
 }
 
 function renderDashboard() {
+  const day = currentDayNumber();
+  const dayPack = CHALLENGE_DAYS[day - 1] || [];
+  const doneToday = completedForDay(day);
+  const streak = streakStats().current;
   const done = completedEntries().length;
-  const noteCount = state.notes.length;
-  const progress = Math.min(100, Math.round((done / CHALLENGES.length) * 100));
+  const dayDate = formatDate(dateForChallengeDay(day), { weekday: "long", day: "numeric", month: "long" });
   return `
     <section class="welcome">
       <div>
-        <p class="eyebrow">VOTRE ESPACE PERSONNEL</p>
-        <h2>Construis la personne<br />que tu veux devenir.</h2>
-        <p class="welcome-description">Organise tes idées. Avance chaque jour.</p>
+        <p class="eyebrow">365 CHALLENGES · JOUR ${String(day).padStart(3, "0")}</p>
+        <h2>Un pas par jour.<br />Cinq domaines en mouvement.</h2>
+        <p class="welcome-description">${doneToday} / 5 actions validées · ${escapeHtml(dayDate)}</p>
+        <a class="button welcome-button" href="#challenges" data-view="challenges">Ouvrir le programme ${icon("arrow")}</a>
       </div>
-      <div class="welcome-number" aria-hidden="true">01</div>
+      <div class="welcome-number" aria-hidden="true">365</div>
     </section>
-    <div class="section-heading"><h2>Ton espace</h2><span>TOUT AU MÊME ENDROIT</span></div>
-    <section class="dashboard-grid">
-      <a class="dashboard-card" href="#brain" data-view="brain">
-        <span class="card-icon" data-icon="brain"></span><span class="card-category">CONNAISSANCES</span>
-        <h3>My Brain</h3><p>Notes, idées et découvertes.</p><span class="card-link">Ouvrir l’espace ${icon("arrow")}</span>
-      </a>
-      <a class="dashboard-card" href="#challenges" data-view="challenges">
-        <span class="card-icon" data-icon="target"></span><span class="card-category">DÉVELOPPEMENT</span>
-        <h3>365 Challenges</h3><p>Cinq actions, cinq domaines, chaque jour.</p><span class="card-link">Voir les défis ${icon("arrow")}</span>
-      </a>
-    </section>
-    <div class="section-heading"><h2>Ton évolution</h2><span>VUE D’ENSEMBLE</span></div>
+    <div class="section-heading"><h2>Les défis du jour</h2><span>${doneToday} / 5 VALIDÉS</span></div>
+    <section class="home-challenges">${dayPack.map(dashboardChallengeRow).join("")}</section>
+    <div class="section-heading"><h2>Ton évolution</h2><a class="text-link" href="#progress" data-view="progress">Voir la progression ${icon("arrow")}</a></div>
     <section class="stats-grid dashboard-stats" aria-label="Statistiques personnelles">
-      <article class="stat-card"><span>NOTES ENREGISTRÉES</span><strong>${noteCount}</strong></article>
-      <article class="stat-card"><span>ACTIONS VALIDÉES</span><strong>${done}</strong></article>
-      <article class="stat-card"><span>PROGRESSION</span><strong>${progress}%</strong></article>
+      ${statCard("target", "ACTIONS VALIDÉES", done, `sur ${CHALLENGES.length}`)}
+      ${statCard("calendar", "JOURS COMPLETS", completedDayCount(), "sur 365")}
+      ${statCard("flame", "SÉRIE ACTUELLE", streak, streak === 1 ? "jour" : "jours")}
     </section>`;
+}
+
+function dashboardChallengeRow(challenge) {
+  const done = !!state.challengeLog[challenge.id]?.completedAt;
+  return `<article class="home-challenge-row ${done ? "is-complete" : ""}"><span class="home-challenge-index">${String(challenge.slot).padStart(2, "0")}</span><div class="home-challenge-copy"><span class="home-challenge-category">${escapeHtml(challenge.category)}</span><h3>${escapeHtml(challenge.title)}</h3><p>${escapeHtml(challenge.description)}</p></div><button class="home-challenge-check ${done ? "done" : ""}" data-action="toggle-challenge" data-id="${challenge.id}" aria-label="${done ? "Annuler" : "Valider"} ${escapeHtml(challenge.title)}">${done ? icon("check") : ""}</button></article>`;
 }
 
 function statCard(iconName, label, value, foot) {
   return `<article class="stat-card"><div class="stat-head"><span>${label}</span><span class="stat-icon">${icon(iconName)}</span></div><div class="stat-value">${escapeHtml(value)}</div><div class="stat-foot">${foot}</div></article>`;
-}
-
-function typeIcon(type) {
-  return ({ "Idée": "idea", "Découverte": "discovery", "Citation": "quote", "Apprentissage": "learning" })[type] || "note";
-}
-
-function renderBrain() {
-  const search = document.querySelector("#brainSearch")?.value ?? "";
-  const category = document.querySelector("#brainCategory")?.value ?? "Toutes les catégories";
-  const query = search.trim().toLocaleLowerCase("fr");
-  const notes = [...state.notes].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).filter((note) => {
-    const searchable = [note.title, note.content, note.category, note.type, ...(note.tags || [])].join(" ").toLocaleLowerCase("fr");
-    return (!query || searchable.includes(query)) && (category === "Toutes les catégories" || note.category === category);
-  });
-  const categories = [...new Set(state.notes.map((note) => note.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-  document.querySelector("#mainView").innerHTML = `
-    ${pageHeading("MY BRAIN", "Tes idées, au même endroit.", "Notes, découvertes, apprentissages.", `<button class="button button-dark" data-action="add-note"><span data-icon="plus"></span> Capture guidée</button>`)}
-    <div class="toolbar">
-      <label class="search-box"><span data-icon="search"></span><input id="brainSearch" type="search" placeholder="Rechercher…" value="${escapeHtml(search)}" /></label>
-      <select class="filter-select" id="brainCategory" aria-label="Filtrer par classement"><option>Toutes les catégories</option>${categories.map((item) => `<option${item === category ? " selected" : ""}>${escapeHtml(item)}</option>`).join("")}</select>
-      <span class="toolbar-spacer"></span><span class="result-count">${notes.length} résultat${notes.length === 1 ? "" : "s"}</span>
-    </div>
-    ${notes.length ? `<div class="notes-list">${notes.map(noteCard).join("")}</div>` : emptyState("note", query || category !== "Toutes les catégories" ? "Aucun résultat" : "Tout commence ici", query || category !== "Toutes les catégories" ? "Essayez un autre terme." : "Ajoutez votre première note.", `<button class="button button-dark" data-action="add-note"><span data-icon="plus"></span> Créer une note</button>`)}
-  `;
-  replaceIcons(document.querySelector("#mainView"));
-  const newSearch = document.querySelector("#brainSearch");
-  if (newSearch) {
-    newSearch.addEventListener("input", () => {
-      const value = newSearch.value;
-      renderBrain();
-      const next = document.querySelector("#brainSearch");
-      next?.focus();
-      if (next) next.setSelectionRange(value.length, value.length);
-    });
-  }
-  document.querySelector("#brainCategory")?.addEventListener("change", renderBrain);
-}
-
-function noteCard(note) {
-  const tags = (note.tags || []).filter(Boolean);
-  return `<article class="note-card"><div class="note-card-top"><span class="note-type-icon">${icon(typeIcon(note.type))}</span><div class="note-main"><div class="note-title-line"><h3>${escapeHtml(note.title)}</h3><span class="note-meta">${escapeHtml(note.type)} · ${escapeHtml(note.category || "Sans classement")} · modifiée le ${formatDate(note.updatedAt)}</span></div><p class="note-content">${escapeHtml(note.content)}</p></div></div><div class="note-footer"><div class="tag-list">${tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div><div class="note-actions"><button class="icon-button" data-action="edit-note" data-id="${escapeHtml(note.id)}" aria-label="Modifier ${escapeHtml(note.title)}" title="Modifier">${icon("edit")}</button><button class="icon-button" data-action="delete-note" data-id="${escapeHtml(note.id)}" aria-label="Supprimer ${escapeHtml(note.title)}" title="Supprimer">${icon("trash")}</button></div></div></article>`;
 }
 
 function pageHeading(eyebrow, title, description, actions = "") {
@@ -591,118 +545,17 @@ function renderProgress() {
 }
 
 function render() {
-  const allowed = ["dashboard", "brain", "challenges", "progress"];
+  const allowed = ["dashboard", "challenges", "progress"];
   const requested = location.hash.replace(/^#/, "") || "dashboard";
   currentView = allowed.includes(requested) ? requested : "dashboard";
   if (!location.hash || !allowed.includes(requested)) history.replaceState(null, "", `#${currentView}`);
   document.querySelectorAll("[data-view]").forEach((link) => link.classList.toggle("active", link.dataset.view === currentView));
-  document.querySelector("#noteCount").textContent = state.notes.length;
-  const pageTitles = { dashboard: "Dashboard", brain: "My Brain", challenges: "365 Challenges", progress: "Progression" };
+  const pageTitles = { dashboard: "Accueil", challenges: "365 Challenges", progress: "Progression" };
   document.querySelector("#topbarPageTitle").textContent = pageTitles[currentView];
-  if (currentView === "brain") renderBrain();
-  else if (currentView === "challenges") renderChallenges();
+  if (currentView === "challenges") renderChallenges();
   else if (currentView === "progress") renderProgress();
   else document.querySelector("#mainView").innerHTML = renderDashboard();
   replaceIcons(document.querySelector("#mainView"));
-}
-
-function noteTitleFromAnswer(answer) {
-  const firstLine = String(answer || "").trim().split(/\r?\n/)[0].trim();
-  const firstSentence = firstLine.split(/[.!?](?:\s|$)/)[0].trim();
-  const title = firstSentence || firstLine;
-  return title.length > 64 ? `${title.slice(0, 61).trimEnd()}…` : title;
-}
-
-function updateGuidedNotePreview() {
-  const answer = document.querySelector('#guidedNoteForm [name="remember"]').value;
-  const title = noteTitleFromAnswer(answer);
-  document.querySelector("#guidedNotePreview").textContent = title ? `Titre : ${title}` : "Le titre sera créé à partir de ta réponse.";
-}
-
-function openGuidedNoteDialog() {
-  const form = document.querySelector("#guidedNoteForm");
-  form.reset();
-  updateGuidedNotePreview();
-  document.querySelector("#guidedNoteDialog").showModal();
-  setTimeout(() => form.elements.remember.focus(), 50);
-}
-
-function openNoteDialog(note = null) {
-  if (!note) {
-    openGuidedNoteDialog();
-    return;
-  }
-  const dialog = document.querySelector("#noteDialog");
-  const form = document.querySelector("#noteForm");
-  form.reset();
-  form.elements.id.value = note?.id || "";
-  form.elements.title.value = note?.title || "";
-  form.elements.type.value = note?.type || "Note";
-  form.elements.category.value = note?.category || "Personnel";
-  form.elements.content.value = note?.content || "";
-  form.elements.tags.value = (note?.tags || []).join(", ");
-  document.querySelector("#noteDialogTitle").textContent = note ? "Modifier la note" : "Nouvelle note";
-  dialog.showModal();
-  setTimeout(() => form.elements.title.focus(), 50);
-}
-
-function saveGuidedNote(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const remember = form.elements.remember.value.trim();
-  const reason = form.elements.reason.value.trim();
-  const nextStep = form.elements.nextStep.value.trim();
-  const now = new Date().toISOString();
-  const content = [
-    remember,
-    reason ? `Pourquoi le garder\n${reason}` : "",
-    nextStep ? `À creuser\n${nextStep}` : ""
-  ].filter(Boolean).join("\n\n");
-  const note = {
-    id: uid(),
-    title: noteTitleFromAnswer(remember) || "Nouvelle idée",
-    type: NOTE_TYPES.includes(form.elements.type.value) ? form.elements.type.value : "Note",
-    category: form.elements.category.value.trim() || "Personnel",
-    content,
-    tags: [...new Set(form.elements.tags.value.split(",").map((tag) => tag.trim()).filter(Boolean))],
-    createdAt: now,
-    updatedAt: now
-  };
-  state.notes.unshift(note);
-  persist();
-  document.querySelector("#guidedNoteDialog").close();
-  if (currentView !== "brain") location.hash = "brain";
-  else {
-    document.querySelector("#brainSearch").value = "";
-    document.querySelector("#brainCategory").value = "Toutes les catégories";
-    render();
-  }
-  showToast("Note créée dans My Brain.");
-}
-
-function saveNote(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const existing = state.notes.find((note) => note.id === form.elements.id.value);
-  const now = new Date().toISOString();
-  const note = {
-    id: existing?.id || uid(),
-    title: form.elements.title.value.trim(),
-    type: NOTE_TYPES.includes(form.elements.type.value) ? form.elements.type.value : "Note",
-    category: form.elements.category.value.trim() || "Personnel",
-    content: form.elements.content.value.trim(),
-    tags: [...new Set(form.elements.tags.value.split(",").map((tag) => tag.trim()).filter(Boolean))],
-    createdAt: existing?.createdAt || now,
-    updatedAt: now
-  };
-  if (!note.title || !note.content) return;
-  if (existing) state.notes = state.notes.map((item) => item.id === existing.id ? note : item);
-  else state.notes.unshift(note);
-  persist();
-  document.querySelector("#noteDialog").close();
-  if (currentView !== "brain") location.hash = "brain";
-  else render();
-  showToast(existing ? "Note mise à jour." : "Note enregistrée dans My Brain.");
 }
 
 function toggleChallenge(id) {
@@ -779,9 +632,9 @@ async function importBackup(file) {
     const raw = JSON.parse(await file.text());
     const next = validImportedState(raw);
     if (!next) throw new Error("Ce fichier ne semble pas être une sauvegarde My Life OS valide.");
-    const noteText = `${next.notes.length} note${next.notes.length === 1 ? "" : "s"}`;
-    const completedText = `${Object.values(next.challengeLog).filter((item) => item.completedAt).length} défi${Object.values(next.challengeLog).filter((item) => item.completedAt).length === 1 ? "" : "s"} validé${Object.values(next.challengeLog).filter((item) => item.completedAt).length === 1 ? "" : "s"}`;
-    if (!confirm(`Restaurer cette sauvegarde ? Les données actuelles seront remplacées par ${noteText} et ${completedText}.`)) return;
+    const completedCount = Object.values(next.challengeLog).filter((item) => item.completedAt).length;
+    const completedText = `${completedCount} défi${completedCount === 1 ? "" : "s"} validé${completedCount === 1 ? "" : "s"}`;
+    if (!confirm(`Restaurer cette sauvegarde ? Les défis et commentaires actuels seront remplacés. Le fichier contient ${completedText}.`)) return;
     state = next;
     persist();
     render();
@@ -835,17 +688,7 @@ document.addEventListener("click", (event) => {
   const actionNode = event.target.closest("[data-action]");
   if (!actionNode) return;
   const { action, id } = actionNode.dataset;
-  if (action === "add-note") openNoteDialog();
-  else if (action === "edit-note") {
-    const note = state.notes.find((item) => item.id === id);
-    if (note) openNoteDialog(note);
-  } else if (action === "delete-note") {
-    const note = state.notes.find((item) => item.id === id);
-    if (note && confirm(`Supprimer « ${note.title} » ?`)) {
-      state.notes = state.notes.filter((item) => item.id !== id);
-      persist(); render(); showToast("Note supprimée.");
-    }
-  } else if (action === "toggle-challenge") toggleChallenge(id);
+  if (action === "toggle-challenge") toggleChallenge(id);
   else if (action === "edit-comment") openChallengeComment(id);
   else if (action === "challenge-day") {
     selectedChallengeDay = Math.max(1, Math.min(365, selectedChallengeDay + Number(actionNode.dataset.delta)));
@@ -867,10 +710,6 @@ document.addEventListener("click", (event) => {
   }
 });
 
-document.querySelector("#quickAddButton").addEventListener("click", () => openNoteDialog());
-document.querySelector("#noteForm").addEventListener("submit", saveNote);
-document.querySelector("#guidedNoteForm").addEventListener("submit", saveGuidedNote);
-document.querySelector('#guidedNoteForm [name="remember"]').addEventListener("input", updateGuidedNotePreview);
 document.querySelector("#challengeForm").addEventListener("submit", saveChallengeComment);
 document.querySelector("#exportButton").addEventListener("click", exportBackup);
 document.querySelector("#importButton").addEventListener("click", () => document.querySelector("#importFile").click());
@@ -898,7 +737,9 @@ function refreshDateContext() {
     challengeSearch = "";
     if (currentView === "challenges") renderChallenges();
   }
+  if (currentView === "dashboard") document.querySelector("#mainView").innerHTML = renderDashboard();
   if (currentView === "progress") renderProgress();
+  if (currentView === "dashboard") replaceIcons(document.querySelector("#mainView"));
 }
 
 setTopbarDate();
