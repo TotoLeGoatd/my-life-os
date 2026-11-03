@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "My Life OS — votre espace personnel",
+  "name": "My Life OS — ton espace personnel",
   "short_name": "My Life OS",
-  "description": "Apprendre, avancer et garder le cap dans un espace personnel.",
+  "description": "Ton espace pour apprendre, créer et avancer.",
   "lang": "fr-FR",
   "start_url": "./",
   "scope": "./",
